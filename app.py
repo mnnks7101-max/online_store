@@ -1,10 +1,11 @@
+import os
 from flask import Flask, render_template, request, redirect, url_for, session,jsonify
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 app = Flask(__name__)
 
 app.config["SECRET_KEY"] = "online-store-secret-key"
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql+psycopg2://postgres:Postgres%4007@localhost:5432/online_store"
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
