@@ -1,0 +1,7 @@
+venv/
+__pycache__/
+instance/
+.env
+cookies.txt
+body.json
+update.json

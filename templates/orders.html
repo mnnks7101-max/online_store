@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Orders | My Online Store</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .orders-container {
+            max-width: 1000px;
+            margin: 40px auto;
+        }
+
+        .orders-title {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .orders-title h1 {
+            font-size: 36px;
+            margin-bottom: 8px;
+        }
+
+        .orders-title p {
+            color: #6b7280;
+        }
+
+        .order-card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            border-left: 6px solid #2563eb;
+            transition: 0.3s;
+        }
+
+        .order-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .order-number {
+            font-size: 22px;
+            font-weight: bold;
+            color: #111827;
+        }
+
+        .order-total {
+            font-size: 20px;
+            font-weight: bold;
+            color: #16a34a;
+        }
+
+        .order-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .status {
+            padding: 8px 15px;
+            border-radius: 20px;
+            background: #eff6ff;
+            color: #2563eb;
+            font-weight: bold;
+        }
+
+        .empty-orders {
+            background: white;
+            text-align: center;
+            padding: 50px 20px;
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+
+        .empty-orders h2 {
+            margin-bottom: 10px;
+        }
+
+        .continue-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 20px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 9px;
+            font-weight: bold;
+        }
+
+        .continue-btn:hover {
+            background: #1d4ed8;
+        }
+
+        @media (max-width: 600px) {
+            .order-header,
+            .order-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .orders-title h1 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🛍️ My Online Store</h1>
+
+    <nav>
+        <a href="/">🏠 Store</a>
+        <a href="/cart">🛒 Cart</a>
+        <a href="/orders">📦 My Orders</a>
+        <a href="/logout">🚪 Logout</a>
+    </nav>
+</header>
+
+
+<div class="orders-container">
+
+    <div class="orders-title">
+        <h1>📦 My Orders</h1>
+        <p>Track and manage your recent orders</p>
+    </div>
+
+
+    {% if orders %}
+
+        {% for order in orders %}
+
+        <div class="order-card">
+
+            <div class="order-header">
+
+                <div class="order-number">
+                    📋 Order #{{ order.id }}
+                </div>
+
+                <div class="order-total">
+                    ₹{{ order.total }}
+                </div>
+
+            </div>
+
+
+            <div class="order-info">
+
+                <div>
+                    <strong>Order Status</strong>
+                </div>
+
+                <div class="status">
+                    {{ order.status }}
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="empty-orders">
+
+            <h2>📦 No Orders Yet</h2>
+
+            <p>
+                You haven't placed any orders yet.
+            </p>
+
+            <a href="/" class="continue-btn">
+                🛍️ Start Shopping
+            </a>
+
+        </div>
+
+    {% endif %}
+
+
+    <a href="/" class="continue-btn">
+        ← Continue Shopping
+    </a>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Online Store</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<header>
+    <h1>🛍️ My Online Store</h1>
+
+    <nav>
+        {% if session.get('username') %}
+            <a href="/">Store</a>
+            <a href="/cart">🛒 Cart</a>
+            <a href="/orders">📦 My Orders</a>
+            <a href="/logout">Logout</a>
+
+            {% if session.get('role') == 'admin' %}
+                <a href="/admin">⚙️ Admin</a>
+            {% endif %}
+        {% else %}
+            <a href="/login">Login</a>
+            <a href="/register">Register</a>
+            <a href="/cart">🛒 Cart</a>
+        {% endif %}
+    </nav>
+</header>
+
+<div class="container">
+
+    <h2>✨ Our Products</h2>
+
+    {% if products %}
+
+    <div class="products">
+
+        {% for product in products %}
+
+        <div class="product-card">
+
+            {% if product.image %}
+                <img src="{{ product.image }}"
+                     alt="{{ product.name }}"
+                     style="width:100%; height:200px; object-fit:contain; border-radius:10px;">
+            {% else %}
+                <div style="height:200px; display:flex; align-items:center; justify-content:center; background:#f1f5f9; border-radius:10px; font-size:60px;">
+                    🛍️
+                </div>
+            {% endif %}
+
+            <h3>{{ product.name }}</h3>
+
+            <p>{{ product.description }}</p>
+
+            <p class="price">₹{{ product.price }}</p>
+
+            <a class="btn"
+               href="/add_to_cart/{{ product.id }}">
+                🛒 Add to Cart
+            </a>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+        <div class="product-card">
+            <p>No products available yet.</p>
+        </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>

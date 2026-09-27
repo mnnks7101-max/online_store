@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register - Online Store</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<header>
+    <h1>🛍️ My Online Store</h1>
+
+    <nav>
+        <a href="/">🏠 Store</a>
+        <a href="/login">🔐 Login</a>
+        <a href="/cart">🛒 Cart</a>
+    </nav>
+</header>
+
+<div class="container">
+
+    <div class="login-box">
+
+        <h2>📝 Create Account</h2>
+
+        <p>Join us and start shopping</p>
+
+        <form method="POST">
+
+            <label>Username</label>
+            <input
+                type="text"
+                name="username"
+                placeholder="Choose a username"
+                required
+            >
+
+            <label>Password</label>
+            <input
+                type="password"
+                name="password"
+                placeholder="Create a password"
+                required
+            >
+
+            <button type="submit">
+                ✨ Create Account
+            </button>
+
+        </form>
+
+        <p>
+            Already have an account?
+            <a href="/login">Login here</a>
+        </p>
+
+    </div>
+
+</div>
+
+</body>
+</html>

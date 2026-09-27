@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | My Online Store</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .checkout-container {
+            max-width: 1000px;
+            margin: 40px auto;
+        }
+
+        .checkout-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .checkout-title h1 {
+            font-size: 36px;
+            margin-bottom: 8px;
+        }
+
+        .checkout-title p {
+            color: #6b7280;
+            font-size: 16px;
+        }
+
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .checkout-card {
+            background: white;
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+
+        .checkout-card h2 {
+            margin-top: 0;
+            color: #111827;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 15px;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-name {
+            font-weight: bold;
+            color: #374151;
+        }
+
+        .item-price {
+            font-weight: bold;
+            color: #16a34a;
+        }
+
+        .total-box {
+            margin-top: 20px;
+            padding: 18px;
+            background: #eff6ff;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .total-price {
+            color: #16a34a;
+        }
+
+        .checkout-form label {
+            display: block;
+            font-weight: bold;
+            margin-top: 15px;
+            color: #374151;
+        }
+
+        .checkout-form input,
+        .checkout-form textarea {
+            width: 100%;
+            padding: 13px;
+            margin-top: 7px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            font-size: 15px;
+        }
+
+        .checkout-form textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
+        .place-order {
+            width: 100%;
+            margin-top: 25px;
+            padding: 14px;
+            font-size: 17px;
+            border-radius: 10px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .place-order:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+        }
+
+        .back-cart {
+            display: inline-block;
+            margin-top: 25px;
+            text-decoration: none;
+            color: #2563eb;
+            font-weight: bold;
+        }
+
+        .secure-note {
+            text-align: center;
+            margin-top: 15px;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        @media (max-width: 700px) {
+            .checkout-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .checkout-title h1 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🛍️ My Online Store</h1>
+
+    <nav>
+        <a href="/">🏠 Store</a>
+        <a href="/cart">🛒 Cart</a>
+
+        {% if session.get('username') %}
+            <a href="/orders">📦 My Orders</a>
+            <a href="/logout">🚪 Logout</a>
+        {% else %}
+            <a href="/login">🔐 Login</a>
+            <a href="/register">📝 Register</a>
+        {% endif %}
+    </nav>
+</header>
+
+
+<div class="checkout-container">
+
+    <div class="checkout-title">
+        <h1>🛒 Checkout</h1>
+        <p>Complete your details and place your order</p>
+    </div>
+
+
+    <div class="checkout-grid">
+
+        <!-- ORDER SUMMARY -->
+        <div class="checkout-card">
+
+            <h2>📦 Order Summary</h2>
+
+            {% for product in products %}
+
+            <div class="order-item">
+
+                <div>
+                    <div class="item-name">
+                        {{ product.name }}
+                    </div>
+
+                    <small>
+                        {{ product.description }}
+                    </small>
+                </div>
+
+                <div class="item-price">
+                    ₹{{ product.price }}
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+
+            <div class="total-box">
+
+                <span>Total</span>
+
+                <span class="total-price">
+                    ₹{{ total }}
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- DELIVERY DETAILS -->
+        <div class="checkout-card">
+
+            <h2>🚚 Delivery Details</h2>
+
+            <form method="POST" class="checkout-form">
+
+                <label>👤 Full Name</label>
+                <input
+                    type="text"
+                    name="name"
+                    placeholder="Enter your full name"
+                    required
+                >
+
+                <label>📍 Address</label>
+                <textarea
+                    name="address"
+                    placeholder="Enter your complete delivery address"
+                    required
+                ></textarea>
+
+                <label>📱 Phone Number</label>
+                <input
+                    type="tel"
+                    name="phone"
+                    placeholder="Enter your phone number"
+                    required
+                >
+
+                <button type="submit" class="place-order">
+                    🛍️ Place Order
+                </button>
+
+            </form>
+
+            <div class="secure-note">
+                🔒 Your order details are securely processed
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <a href="/cart" class="back-cart">
+        ← Back to Cart
+    </a>
+
+</div>
+
+</body>
+</html>
